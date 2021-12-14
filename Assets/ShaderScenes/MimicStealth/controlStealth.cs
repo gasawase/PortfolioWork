@@ -10,20 +10,20 @@ public class controlStealth : MonoBehaviour
     //should probably be an array
     [SerializeField] GameObject mainBody;
     [SerializeField] ParticleSystem smokeSys;
+    [SerializeField] private int timesToCycle = 200;
     
     private Material material;
     private Animator mainAnim;
     private bool running;
-
-    public float idleTime;
-    public float slamTime;
+    private float idleTime;
+    private float slamTime;
 
     private void Start()
     {
         material = GetComponent<SkinnedMeshRenderer>().sharedMaterial;
         mainAnim = mainBody.GetComponent<Animator>();
         //Animator mainAnim = mainBody.GetComponent<Animator>();
-        material.SetFloat("Cutoff", 0 );
+        material.SetFloat("Cutoff", (-0.5f) );
 
         //UpdateAnimClipTimes();
     }
@@ -64,7 +64,8 @@ public class controlStealth : MonoBehaviour
 
     private IEnumerator stealthPowerTriggeredCR()
     {
-        float cutoffStandIn = 0.0f;
+        //what cutoffStandIn means
+        float cutoffStandIn = 0f;
         float waitSlamDone = 1.5f;
         //set transition to magic bomb animation to true
         mainAnim.SetBool("isMimicStealth", true);
@@ -78,10 +79,10 @@ public class controlStealth : MonoBehaviour
         
         smokeSys.Play();
 
-        WaitForSeconds wait = new WaitForSeconds(.01f);
+        WaitForSeconds wait = new WaitForSeconds(.004f);
         
         //transition from normal to sneak
-        for (int i = 0; i < 101; i++)
+        for (int i = 0; i < timesToCycle; i++)
         {
             cutoffStandIn += .01f;
             //need to add a wait
