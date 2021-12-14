@@ -1,16 +1,96 @@
+//TODO: register a player pressing a button to trigger, trigger animation, trigger change in cutoff
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class controlStealth : MonoBehaviour
 {
-    public GameObject surfaceGameObject;
-    public GameObject jointsGameObject;
-    public GameObject normalSurfGO;
-    public GameObject normalJointsGO;
+    //should probably be an array
+    [SerializeField] GameObject mainBody;
+    [SerializeField] ParticleSystem smokeSys;
+    
+    private Material material;
+    private Animator mainAnim;
+    private bool running;
 
-    public void stealthActivated()
+    public float idleTime;
+    public float slamTime;
+
+    private void Start()
     {
-        //TODO: control cutoffs of normal and invisible, turns off the normal when almost at zero
+        material = GetComponent<SkinnedMeshRenderer>().sharedMaterial;
+        mainAnim = mainBody.GetComponent<Animator>();
+        //Animator mainAnim = mainBody.GetComponent<Animator>();
+        material.SetFloat("Cutoff", 0 );
+
+        //UpdateAnimClipTimes();
+    }
+
+    public void Update()
+    {
+        //checks for e button pressed
+        if (Input.GetButtonDown("StealthAbilityTrigger"))
+        {
+            Debug.Log("pressed");
+            if (!running)
+            {
+                StartCoroutine(stealthPowerTriggeredCR());
+            }
+            
+        }
+
+    }
+
+    public void UpdateAnimClipTimes()
+    {
+        AnimationClip[] clips = mainAnim.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            switch (clip.name)
+            {
+                case "NinjaIdle":
+                    idleTime = clip.length;
+                    Debug.Log(idleTime);
+                    break;
+                case "MagicSlam":
+                    slamTime = clip.length;
+                    Debug.Log(slamTime);
+                    break;
+            }
+        }
+    }
+
+    private IEnumerator stealthPowerTriggeredCR()
+    {
+        float cutoffStandIn = 0.0f;
+        float waitSlamDone = 1.5f;
+        //set transition to magic bomb animation to true
+        mainAnim.SetBool("isMimicStealth", true);
+        running = true;
+        //wait until idle animation is done
+        
+        //yield return new WaitForSeconds(mainAnim.GetCurrentAnimatorStateInfo(0).length + mainAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        //mainBody.GetComponent<Animator>().SetBool("isMimicStealth", false);
+
+        yield return new WaitForSeconds(waitSlamDone);
+        
+        smokeSys.Play();
+
+        WaitForSeconds wait = new WaitForSeconds(.01f);
+        
+        //transition from normal to sneak
+        for (int i = 0; i < 101; i++)
+        {
+            cutoffStandIn += .01f;
+            //need to add a wait
+            material.SetFloat("Cutoff", cutoffStandIn );
+            yield return wait;
+            print(cutoffStandIn);
+        }
+        running = false;
+        mainBody.GetComponent<Animator>().SetBool("isMimicStealth", false);
+        
     }
 }

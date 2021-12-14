@@ -10,7 +10,7 @@ Material:
   m_Name: MimicStealthMat
   m_Shader: {fileID: -6465566751694194690, guid: a5c2945a74cd0884cb7a8f0aaa85a8ce, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -53,10 +53,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Boolean_06bfa3197d4e4d9c838fea59b2bdb70f: 1
+    - Cutoff: 0.33999994
     - Vector1_4fc7f63716ef446eac50a87d59465388: 13.4
     - Vector1_58cfd7da06894b27aaa3f1ce92fa24f3: 0
     - Vector1_972cd4d63f8c46458425d65a0e57f047: 0.14
-    - Vector1_b743ce49350348cfaee9520ea8c3afba: 1
+    - Vector1_b743ce49350348cfaee9520ea8c3afba: 0
     - Vector1_e7456d682ba24c72aafb3c36f947a905: 0.82
     m_Colors:
     - Color_19fff1f2d36d4b4a8d5a0585cbac8bdd: {r: 0.9150943, g: 0, b: 0, a: 1}
