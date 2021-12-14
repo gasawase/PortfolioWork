@@ -1,0 +1,8 @@
+
+Library/ArtifactDB
+Library/ArtifactDB-lock
+Library/Search/transactions.db
+Library/ShaderCache.db
+Library/SourceAssetDB
+Library/SourceAssetDB-lock
+Temp/UnityLockfile
